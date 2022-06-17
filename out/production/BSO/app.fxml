@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="App"
+      prefHeight="1000.0" prefWidth="1500.0"
+      style="-fx-background-color : #ffedff; "
+      spacing="10">
+
+
+    <HBox alignment="CENTER" style="-fx-background-color : #8c0032;" prefWidth="1500"
+          prefHeight="100">
+        <Label text="Résolution du problème de satisfiabilité" textFill="white">
+            <font>
+                <Font name="System Bold" size="50"/>
+            </font>
+        </Label>
+    </HBox>
+
+    <HBox style="-fx-padding: 10 0 0 20;" alignment="CENTER_LEFT" prefWidth="1500">
+
+        <VBox spacing="10" prefWidth="600">
+
+            <HBox spacing="20">
+                <Label text="Méthode de résolution :" textFill="#8c0032">
+                    <font>
+                        <Font name="System Bold" size="20"/>
+                    </font>
+                </Label>
+                <MenuButton fx:id="comboAlgo" textFill="#8c0032" style="-fx-background-color: #f7bacf;"
+                            text="Algorithme génétique GA">
+                    <items>
+                        <MenuItem onAction="#algoGA"
+                                  mnemonicParsing="false" text="Algorithme génétique GA"/>
+                        <MenuItem onAction="#algoPSO"
+                                  mnemonicParsing="false" text="Algorithme d'essaim de particule PSO"/>
+                        <MenuItem onAction="#algoBSO"
+                                  mnemonicParsing="false" text="Algorithme d'essaim d'abeilles BSO"/>
+                    </items>
+                </MenuButton>
+            </HBox>
+
+            <Label text="Fichier benchmark :" textFill="#8c0032">
+                <font>
+                    <Font name="System Bold" size="20"/>
+                </font>
+            </Label>
+
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <Label text="   Choisir un fichier :" textFill="#8c0032">
+                    <font>
+                        <Font size="15"/>
+                    </font>
+                </Label>
+
+                <MenuButton fx:id="comboFile" text="Uf75 - 325" textFill="#8c0032">
+                    <items>
+                        <MenuItem onAction="#chooseFile1" mnemonicParsing="false" text="uf75-01.cnf"/>
+                        <MenuItem onAction="#chooseFile2" mnemonicParsing="false" text="uf75-02.cnf"/>
+                        <MenuItem onAction="#chooseFile3" mnemonicParsing="false" text="uf75-03.cnf"/>
+                        <MenuItem onAction="#chooseFile4" mnemonicParsing="false" text="uf75-04.cnf"/>
+                        <MenuItem onAction="#chooseFile5" mnemonicParsing="false" text="uf75-05.cnf"/>
+                        <MenuItem onAction="#chooseFile6" mnemonicParsing="false" text="uf75-06.cnf"/>
+                        <MenuItem onAction="#chooseFile7" mnemonicParsing="false" text="uf75-07.cnf"/>
+                        <MenuItem onAction="#chooseFile8" mnemonicParsing="false" text="uf75-08.cnf"/>
+                        <MenuItem onAction="#chooseFile9" mnemonicParsing="false" text="uf75-09.cnf"/>
+                        <MenuItem onAction="#chooseFile10" mnemonicParsing="false" text="uf75-010.cnf"/>
+
+                    </items>
+                </MenuButton>
+
+            </HBox>
+
+
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <Label text="   Importer un fichier :" textFill="#8c0032">
+                    <font>
+                        <Font size="15"/>
+                    </font>
+                </Label>
+                <Button fx:id="btnChooseFile" mnemonicParsing="false" prefWidth="150"
+                        style="-fx-background-insets: 0; -fx-background-radius: 15;-fx-background-color: #8c0032;"
+                        text="Choisir" textFill="white">
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                </Button>
+            </HBox>
+
+
+            <Label fx:id="lblChoosenFile" text="Aucun fichier n'est choisi " textFill="#8c0032"
+                   prefWidth="350">
+                <font>
+                    <Font name="System Bold" size="15"/>
+                </font>
+            </Label>
+
+            <Separator></Separator>
+
+
+            <Label text="Réglage de paramètres :" textFill="#8c0032">
+                <font>
+                    <Font name="System Bold" size="18"/>
+                </font>
+            </Label>
+            <Pane prefHeight="320" prefWidth="600">
+                <HBox spacing="10" visible="true" disable="false" fx:id="paneReglageGA">
+                    <VBox spacing="20">
+                        <Label text="   Nombre d'itération :" textFill="#8c0032">
+                            <font>
+                                <Font name="System Bold" size="15"/>
+                            </font>
+                        </Label>
+                        <Label text="   La taille de population :" textFill="#8c0032">
+                            <font>
+                                <Font name="System Bold" size="15"/>
+                            </font>
+                        </Label>
+                        <Label text="   Taux de mutation (%) :" textFill="#8c0032">
+                            <font>
+                                <Font name="System Bold" size="15"/>
+                            </font>
+                        </Label>
+                    </VBox>
+                    <VBox spacing="20">
+                        <ComboBox fx:id="comboNbrItGA" promptText="1020">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="500"/>
+                                    <String fx:value="1000"/>
+                                    <String fx:value="1500"/>
+                                    <String fx:value="2000"/>
+                                    <String fx:value="2500"/>
+                                    <String fx:value="3000"/>
+                                    <String fx:value="3500"/>
+                                    <String fx:value="4000"/>
+                                    <String fx:value="4500"/>
+                                    <String fx:value="5000"/>
+                                    <String fx:value="5500"/>
+                                    <String fx:value="6000"/>
+                                    <String fx:value="6500"/>
+                                    <String fx:value="7000"/>
+                                    <String fx:value="7500"/>
+                                    <String fx:value="8000"/>
+                                    <String fx:value="8500"/>
+                                    <String fx:value="9000"/>
+                                    <String fx:value="9500"/>
+                                    <String fx:value="10000"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                        <ComboBox fx:id="combboPopulation" promptText="24">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="5"/>
+                                    <String fx:value="10"/>
+                                    <String fx:value="15"/>
+                                    <String fx:value="20"/>
+                                    <String fx:value="25"/>
+                                    <String fx:value="30"/>
+                                    <String fx:value="35"/>
+                                    <String fx:value="40"/>
+                                    <String fx:value="45"/>
+                                    <String fx:value="50"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                        <ComboBox fx:id="comboMutation" promptText="5">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="5"/>
+                                    <String fx:value="10"/>
+                                    <String fx:value="15"/>
+                                    <String fx:value="20"/>
+                                    <String fx:value="25"/>
+                                    <String fx:value="30"/>
+                                    <String fx:value="35"/>
+                                    <String fx:value="40"/>
+                                    <String fx:value="45"/>
+                                    <String fx:value="50"/>
+                                    <String fx:value="55"/>
+                                    <String fx:value="60"/>
+                                    <String fx:value="65"/>
+                                    <String fx:value="70"/>
+                                    <String fx:value="75"/>
+                                    <String fx:value="80"/>
+                                    <String fx:value="85"/>
+                                    <String fx:value="90"/>
+                                    <String fx:value="95"/>
+                                    <String fx:value="100"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="10" visible="false" disable="true" fx:id="paneReglagePSO">
+                    <VBox spacing="20">
+                        <Label text="   Nombre d'itération :" textFill="#8c0032">
+                            <font>
+                                <Font name="System Bold" size="15"/>
+                            </font>
+                        </Label>
+                        <Label text="   Nombre de particule :" textFill="#8c0032">
+                            <font>
+                                <Font name="System Bold" size="15"/>
+                            </font>
+                        </Label>
+                        <Label text="   C1 :" textFill="#8c0032">
+                            <font>
+                                <Font name="System Bold" size="15"/>
+                            </font>
+                        </Label>
+                        <Label text="   C2 :" textFill="#8c0032">
+                            <font>
+                                <Font name="System Bold" size="15"/>
+                            </font>
+                        </Label>
+                        <Label text="   W :" textFill="#8c0032">
+                            <font>
+                                <Font name="System Bold" size="15"/>
+                            </font>
+                        </Label>
+
+                    </VBox>
+                    <VBox spacing="20">
+                        <ComboBox fx:id="comboNbrItPSO" promptText="1990">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="100"/>
+                                    <String fx:value="200"/>
+                                    <String fx:value="300"/>
+                                    <String fx:value="400"/>
+                                    <String fx:value="500"/>
+                                    <String fx:value="600"/>
+                                    <String fx:value="700"/>
+                                    <String fx:value="800"/>
+                                    <String fx:value="900"/>
+                                    <String fx:value="1000"/>
+                                    <String fx:value="1100"/>
+                                    <String fx:value="1200"/>
+                                    <String fx:value="1300"/>
+                                    <String fx:value="1400"/>
+                                    <String fx:value="1500"/>
+                                    <String fx:value="1600"/>
+                                    <String fx:value="1700"/>
+                                    <String fx:value="1800"/>
+                                    <String fx:value="1900"/>
+                                    <String fx:value="2000"/>
+                                    <String fx:value="2100"/>
+                                    <String fx:value="2200"/>
+                                    <String fx:value="2300"/>
+                                    <String fx:value="2400"/>
+                                    <String fx:value="2500"/>
+                                    <String fx:value="2600"/>
+                                    <String fx:value="2700"/>
+                                    <String fx:value="2800"/>
+                                    <String fx:value="2900"/>
+                                    <String fx:value="3000"/>
+                                    <String fx:value="3100"/>
+                                    <String fx:value="3200"/>
+                                    <String fx:value="3300"/>
+                                    <String fx:value="3400"/>
+                                    <String fx:value="3500"/>
+                                    <String fx:value="3600"/>
+                                    <String fx:value="3700"/>
+                                    <String fx:value="3800"/>
+                                    <String fx:value="3900"/>
+                                    <String fx:value="4000"/>
+
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+
+                        <ComboBox fx:id="comboParticule" promptText="20">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="10"/>
+                                    <String fx:value="20"/>
+                                    <String fx:value="30"/>
+                                    <String fx:value="40"/>
+                                    <String fx:value="50"/>
+                                    <String fx:value="60"/>
+                                    <String fx:value="70"/>
+                                    <String fx:value="80"/>
+                                    <String fx:value="90"/>
+                                    <String fx:value="100"/>
+                                    <String fx:value="110"/>
+                                    <String fx:value="120"/>
+                                    <String fx:value="130"/>
+                                    <String fx:value="140"/>
+                                    <String fx:value="150"/>
+                                    <String fx:value="160"/>
+                                    <String fx:value="170"/>
+                                    <String fx:value="180"/>
+                                    <String fx:value="190"/>
+                                    <String fx:value="200"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+
+                        <ComboBox fx:id="comboC1" promptText="1.1">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="0.25"/>
+                                    <String fx:value="0.5"/>
+                                    <String fx:value="0.75"/>
+                                    <String fx:value="1"/>
+                                    <String fx:value="1.25"/>
+                                    <String fx:value="1.5"/>
+                                    <String fx:value="1.75"/>
+                                    <String fx:value="2"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+
+                        <ComboBox fx:id="comboC2" promptText="1.3">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="0.25"/>
+                                    <String fx:value="0.5"/>
+                                    <String fx:value="0.75"/>
+                                    <String fx:value="1"/>
+                                    <String fx:value="1.25"/>
+                                    <String fx:value="1.5"/>
+                                    <String fx:value="1.75"/>
+                                    <String fx:value="2"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+
+
+                        <ComboBox fx:id="comboW" promptText="0.625">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="0.25"/>
+                                    <String fx:value="0.5"/>
+                                    <String fx:value="0.75"/>
+                                    <String fx:value="1"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="10" visible="false" disable="true" fx:id="paneReglageBSO">
+                    <VBox spacing="20">
+                        <Label text="   Nombre d'itération :" textFill="#8c0032">
+                            <font>
+                                <Font name="System Bold" size="15"/>
+                            </font>
+                        </Label>
+                        <Label text="   Flip :" textFill="#8c0032">
+                            <font>
+                                <Font name="System Bold" size="15"/>
+                            </font>
+                        </Label>
+                        <Label text="   Nombre d'abeille :" textFill="#8c0032">
+                            <font>
+                                <Font name="System Bold" size="15"/>
+                            </font>
+                        </Label>
+                        <Label text="   Nombre d'abeille locales :" textFill="#8c0032">
+                            <font>
+                                <Font name="System Bold" size="15"/>
+                            </font>
+                        </Label>
+                        <Label text="   Nombre de chance :" textFill="#8c0032">
+                            <font>
+                                <Font name="System Bold" size="15"/>
+                            </font>
+                        </Label>
+                    </VBox>
+                    <VBox spacing="20">
+                        <ComboBox fx:id="comboNbrItBSO" promptText="2540">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="500"/>
+                                    <String fx:value="1000"/>
+                                    <String fx:value="1500"/>
+                                    <String fx:value="2000"/>
+                                    <String fx:value="2500"/>
+                                    <String fx:value="3000"/>
+                                    <String fx:value="3500"/>
+                                    <String fx:value="4000"/>
+                                    <String fx:value="4500"/>
+                                    <String fx:value="5000"/>
+                                    <String fx:value="5500"/>
+                                    <String fx:value="6000"/>
+                                    <String fx:value="6500"/>
+                                    <String fx:value="7000"/>
+                                    <String fx:value="7500"/>
+                                    <String fx:value="8000"/>
+                                    <String fx:value="8500"/>
+                                    <String fx:value="9000"/>
+                                    <String fx:value="9500"/>
+                                    <String fx:value="10000"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+
+                        <ComboBox fx:id="comboFlip" promptText="1">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="1"/>
+                                    <String fx:value="2"/>
+                                    <String fx:value="3"/>
+                                    <String fx:value="4"/>
+                                    <String fx:value="5"/>
+                                    <String fx:value="6"/>
+                                    <String fx:value="7"/>
+                                    <String fx:value="8"/>
+                                    <String fx:value="9"/>
+                                    <String fx:value="10"/>
+                                    <String fx:value="11"/>
+                                    <String fx:value="12"/>
+                                    <String fx:value="13"/>
+                                    <String fx:value="14"/>
+                                    <String fx:value="15"/>
+                                    <String fx:value="16"/>
+                                    <String fx:value="17"/>
+                                    <String fx:value="18"/>
+                                    <String fx:value="19"/>
+                                    <String fx:value="20"/>
+
+                                    <String fx:value="21"/>
+                                    <String fx:value="22"/>
+                                    <String fx:value="23"/>
+                                    <String fx:value="24"/>
+                                    <String fx:value="25"/>
+                                    <String fx:value="26"/>
+                                    <String fx:value="27"/>
+                                    <String fx:value="28"/>
+                                    <String fx:value="29"/>
+                                    <String fx:value="30"/>
+
+                                    <String fx:value="35"/>
+                                    <String fx:value="40"/>
+                                    <String fx:value="45"/>
+                                    <String fx:value="50"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                        <ComboBox fx:id="comboNbrBee" promptText="18">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="5"/>
+                                    <String fx:value="10"/>
+                                    <String fx:value="15"/>
+                                    <String fx:value="20"/>
+                                    <String fx:value="25"/>
+                                    <String fx:value="30"/>
+                                    <String fx:value="35"/>
+                                    <String fx:value="40"/>
+                                    <String fx:value="45"/>
+                                    <String fx:value="50"/>
+
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+
+                        <ComboBox fx:id="comboNbrLocalBee" promptText="26">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="5"/>
+                                    <String fx:value="10"/>
+                                    <String fx:value="15"/>
+                                    <String fx:value="20"/>
+                                    <String fx:value="25"/>
+                                    <String fx:value="30"/>
+                                    <String fx:value="35"/>
+                                    <String fx:value="40"/>
+                                    <String fx:value="45"/>
+                                    <String fx:value="50"/>
+
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+
+                        <ComboBox fx:id="comboNbChance" promptText="5">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="1"/>
+                                    <String fx:value="2"/>
+                                    <String fx:value="3"/>
+                                    <String fx:value="4"/>
+                                    <String fx:value="5"/>
+                                    <String fx:value="6"/>
+                                    <String fx:value="7"/>
+                                    <String fx:value="8"/>
+                                    <String fx:value="9"/>
+                                    <String fx:value="10"/>
+
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+
+                    </VBox>
+                </HBox>
+
+            </Pane>
+
+            <VBox visible="true" disable="false" spacing="10" fx:id="paneParam">
+                <HBox spacing="20">
+                    <Label text="Nombre d'essais :" textFill="#8c0032">
+                        <font>
+                            <Font name="System Bold" size="15"/>
+                        </font>
+                    </Label>
+                    <ComboBox fx:id="comboNbrEssai" promptText="Nombre d'essais = 3">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="1"/>
+                                <String fx:value="2"/>
+                                <String fx:value="3"/>
+                                <String fx:value="4"/>
+                                <String fx:value="5"/>
+                                <String fx:value="6"/>
+                                <String fx:value="7"/>
+                                <String fx:value="8"/>
+                                <String fx:value="9"/>
+                                <String fx:value="10"/>
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                </HBox>
+
+
+                <HBox spacing="10">
+                    <Button fx:id="btnFixer" mnemonicParsing="false" prefWidth="200"
+                            style="-fx-background-insets: 0; -fx-background-radius: 15;-fx-background-color: #4caf50;"
+                            text="Fixer les paramètres" textFill="WHITE">
+                        <font>
+                            <Font size="16.0"/>
+                        </font>
+                    </Button>
+
+                    <Button fx:id="btnInitialiser" mnemonicParsing="false" prefWidth="200"
+                            style="-fx-background-insets: 0; -fx-background-radius: 15;-fx-background-color: #8c0032;"
+                            text="Réinitialiser" textFill="WHITE">
+                        <font>
+                            <Font size="16.0"/>
+                        </font>
+                    </Button>
+                </HBox>
+            </VBox>
+
+
+            <Separator style="-fx-border-width: 1"></Separator>
+
+
+            <HBox alignment="CENTER">
+                <Button fx:id="btnRun" mnemonicParsing="false" prefWidth="400"
+                        style="-fx-background-insets: 0; -fx-background-radius: 28;-fx-background-color: #ffb300;"
+                        text="Lancer l'exécution" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="20.0"/>
+                    </font>
+                </Button>
+            </HBox>
+
+
+            <VBox fx:id="paneResult" visible="false"
+                  style="-fx-border-color: #8c0032; -fx-border-width: 2px;">
+                <Label alignment="CENTER" text="Résultats :" textFill="#ffb300" prefWidth="600">
+                    <font>
+                        <Font name="System Bold" size="20"/>
+                    </font>
+                </Label>
+
+                <ScrollPane fx:id="sp" prefHeight="350.0" prefViewportHeight="350.0">
+                    <content>
+                        <TextFlow fx:id="txtResult" prefHeight="350">
+                        </TextFlow>
+                    </content>
+                </ScrollPane>
+            </VBox>
+
+        </VBox>
+
+        <Separator>
+        </Separator>
+
+        <VBox visible="false"
+              style="-fx-border-color: #ffb300; -fx-border-width: 1px;"
+              disable="true" alignment="TOP_CENTER" prefWidth="900" fx:id="paneGraph">
+
+            <Label alignment="CENTER" text="Graphiques " textFill="#ffb300" prefWidth="600">
+                <font>
+                    <Font name="System Bold" size="40"/>
+                </font>
+            </Label>
+
+            <Label fx:id="lblSat" alignment="CENTER" text="Histogramme de taux satisfiabilité pour chaque essais: " textFill="#8c0032"
+                   prefWidth="600">
+                <font>
+                    <Font name="System Bold" size="15"/>
+                </font>
+            </Label>
+
+            <BarChart fx:id="barchartSat">
+                <xAxis>
+                    <CategoryAxis side="LEFT" fx:id="xSat"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="BOTTOM" fx:id="yTauxSat"/>
+                </yAxis>
+            </BarChart>
+
+            <Label fx:id="lblTemps" alignment="CENTER" text="Histogramme de temps d'exécution par chaque essais: " textFill="#8c0032"
+                   prefWidth="600">
+                <font>
+                    <Font name="System Bold" size="15"/>
+                </font>
+            </Label>
+
+            <BarChart fx:id="barchartTemps">
+                <xAxis>
+                    <CategoryAxis fx:id="xTemps" side="LEFT"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis fx:id="yTemps" side="BOTTOM"/>
+                </yAxis>
+            </BarChart>
+
+            <HBox style="-fx-padding: 10 0 0 20;" prefWidth="300" alignment="CENTER_LEFT" spacing="20">
+                <VBox>
+                    <Label alignment="CENTER_LEFT" text="Effectuer une comparaison" textFill="#8c0032">
+                        <font>
+                            <Font name="System Bold" size="15"/>
+                        </font>
+                    </Label>
+
+                    <RadioButton fx:id="radioCmpGA" mnemonicParsing="false" text="GA" textFill="#8c0032">
+                        <font>
+                            <Font size="16.0"/>
+                        </font>
+                    </RadioButton>
+
+                    <RadioButton fx:id="radioCmpBSO" mnemonicParsing="false" text="BSO" textFill="#8c0032">
+                        <font>
+                            <Font size="16.0"/>
+                        </font>
+                    </RadioButton>
+
+                    <RadioButton fx:id="radioCmpPSO" mnemonicParsing="false" text="PSO" textFill="#8c0032">
+                        <font>
+                            <Font size="16.0"/>
+                        </font>
+                    </RadioButton>
+                </VBox>
+
+                <Button fx:id="btnComparaison" mnemonicParsing="false" prefWidth="250"
+                        style="-fx-background-insets: 0; -fx-background-radius: 15;-fx-background-color: #ffb300;"
+                        text="Effectuer une Comparaison" textFill="white">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Button>
+            </HBox>
+        </VBox>
+
+    </HBox>
+
+</VBox>
+
